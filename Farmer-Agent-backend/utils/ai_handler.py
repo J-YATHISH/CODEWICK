@@ -6,13 +6,14 @@ from dotenv import load_dotenv
 load_dotenv()
 API_KEY = os.getenv("OPENROUTER_API_KEY")
 
-
 def call_openrouter(prompt, lang="ta", model="deepseek/deepseek-chat"):
     try:
         # System prompt based on language
         system_prompt = {
             "ta": "நீங்கள் ஒரு விவசாய ஆலோசகர். தமிழில் பதிலளிக்கவும்.",
-            "hi": "आप एक कृषि सलाहकार हैं। कृपया हिंदी में उत्तर दें।"
+            "hi": "आप एक कृषि सलाहकार हैं। कृपया हिंदी में उत्तर दें।",
+            "te": "మీరు ఒక వ్యవసాయ సలహాదారు. దయచేసి తెలుగులో సమాధానం ఇవ్వండి.",
+            "ml": "നിങ്ങൾ ഒരു കാർഷിക ഉപദേശകനാണ്. ദയവായി മലയാളത്തിൽ മറുപടി നൽകുക."
         }.get(lang, "You are a multilingual agricultural advisor AI.")
 
         headers = {
@@ -51,12 +52,13 @@ def call_openrouter(prompt, lang="ta", model="deepseek/deepseek-chat"):
     except Exception as e:
         return f"❌ OpenRouter exception: {str(e)}"
 
-
 def call_ollama(prompt, lang="ta"):
     try:
         system_prompt = {
             "ta": "நீங்கள் ஒரு விவசாய ஆலோசகர். தமிழில் பதிலளிக்கவும்.",
-            "hi": "आप एक कृषि सलाहकार हैं। कृपया हिंदी में उत्तर दें।"
+            "hi": "आप एक कृषि सलाहकार हैं। कृपया हिंदी में उत्तर दें।",
+            "te": "మీరు ఒక వ్యవసాయ సలహాదారు. దయచేసి తెలుగులో సమాధానం ఇవ్వండి.",
+            "ml": "നിങ്ങൾ ഒരു കാർഷിക ഉപദേശകനാണ്. ദയവായി മലയാളത്തിൽ മറുപടി നൽകുക."
         }.get(lang, "You are a multilingual agricultural advisor AI.")
 
         full_prompt = f"{system_prompt}\n\n{prompt}"
@@ -72,7 +74,6 @@ def call_ollama(prompt, lang="ta"):
 
     except Exception as e:
         return f"❌ Ollama error: {str(e)}"
-
 
 def get_ai_response(prompt, online, lang="ta"):
     if online:

@@ -1,39 +1,44 @@
+import google.generativeai as genai
+from dotenv import load_dotenv
 import os
-from PIL import Image
-from transformers import VisionEncoderDecoderModel, ViTImageProcessor, AutoTokenizer
-import torch
 
-# ✅ Load model, processor, tokenizer once (global scope)
-model = VisionEncoderDecoderModel.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
-feature_extractor = ViTImageProcessor.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
-tokenizer = AutoTokenizer.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
+load_dotenv()
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model.to(device)
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-# ⚙️ Generation configuration
-gen_kwargs = {"max_length": 20, "temperature": 0.7, "top_p": 0.9, "do_sample": True}
+generation_config = {
+    "temperature": 0.4,
+    "top_p": 1,
+    "top_k": 32,
+    "max_output_tokens": 4096,
+}
 
+safety_settings = [
+    {'category': f"HARM_CATEGORY_{category}", "threshold": "BLOCK_MEDIUM_AND_ABOVE"}
+    for category in ["HARASSMENT", "HATE_SPEECH", "DANGEROUS_CONTENT"]
+]
 
-def describe_image(image_file):
+model = genai.GenerativeModel(
+    model_name="gemini-1.5-flash",
+    generation_config=generation_config,
+    safety_settings=safety_settings,
+)
+
+input_prompt = (
+    "You are a helpful crop expert who speaks simply for rural farmers.\n"
+    "This is a plant with... "
+    "In very simple and short sentences, explain what this disease is, how it happens, "
+    "and how a farmer can treat and stop it. Use easy words any farmer can understand."
+)
+
+def analyze_image_with_gemini(image_file):
     """
-    Saves the uploaded image and returns a caption using a local Transformers model.
+    image_file: werkzeug FileStorage object (from request.files.get("image"))
     """
-    try:
-        # Save uploaded file
-        path = "static/temp_image.jpg"
-        image_file.save(path)
+    image_data = {
+        "mime_type": image_file.mimetype,
+        "data": image_file.read()  # read bytes directly from the in-memory object
+    }
 
-        # Load and prepare image
-        image = Image.open(path)
-        if image.mode != "RGB":
-            image = image.convert(mode="RGB")
-
-        pixel_values = feature_extractor(images=[image], return_tensors="pt").pixel_values.to(device)
-        output_ids = model.generate(pixel_values, **gen_kwargs)
-
-        preds = tokenizer.batch_decode(output_ids, skip_special_tokens=True)
-        return preds[0].strip()
-
-    except Exception as e:
-        return f"❌ Image captioning failed: {str(e)}"
+    response = model.generate_content([input_prompt, image_data])
+    return response.text

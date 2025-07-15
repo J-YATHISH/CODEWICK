@@ -5,6 +5,5 @@ python-dotenv
 gradio
 google-generativeai
 pillow
-assembleai
-torch
-transformers
+assemblyai
+langdetect
