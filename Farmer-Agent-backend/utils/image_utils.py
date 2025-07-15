@@ -1,29 +1,39 @@
 import os
-from dotenv import load_dotenv
-import requests
 from PIL import Image
+from transformers import VisionEncoderDecoderModel, ViTImageProcessor, AutoTokenizer
+import torch
 
-# Load environment variables
-load_dotenv()
-HUGGINGFACE_TOKEN = os.getenv("HUGGINGFACE_TOKEN")
+# ✅ Load model, processor, tokenizer once (global scope)
+model = VisionEncoderDecoderModel.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
+feature_extractor = ViTImageProcessor.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
+tokenizer = AutoTokenizer.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
+
+# ⚙️ Generation configuration
+gen_kwargs = {"max_length": 20, "temperature": 0.7, "top_p": 0.9, "do_sample": True}
+
 
 def describe_image(image_file):
     """
-    Saves the uploaded image and sends it to Hugging Face BLIP captioning API.
-    Returns the generated image description.
+    Saves the uploaded image and returns a caption using a local Transformers model.
     """
-
-    path = "static/temp_image.jpg"
-    image_file.save(path)
-
-    # BLIP model endpoint
-    url = "https://api-inference.huggingface.co/models/Salesforce/blip-image-captioning-base"
-    headers = {"Authorization": f"Bearer {HUGGINGFACE_TOKEN}"}
-
     try:
-        with open(path, "rb") as f:
-            response = requests.post(url, headers=headers, data=f)
-            response.raise_for_status()
-            return response.json()[0]['generated_text']
+        # Save uploaded file
+        path = "static/temp_image.jpg"
+        image_file.save(path)
+
+        # Load and prepare image
+        image = Image.open(path)
+        if image.mode != "RGB":
+            image = image.convert(mode="RGB")
+
+        pixel_values = feature_extractor(images=[image], return_tensors="pt").pixel_values.to(device)
+        output_ids = model.generate(pixel_values, **gen_kwargs)
+
+        preds = tokenizer.batch_decode(output_ids, skip_special_tokens=True)
+        return preds[0].strip()
+
     except Exception as e:
         return f"❌ Image captioning failed: {str(e)}"
