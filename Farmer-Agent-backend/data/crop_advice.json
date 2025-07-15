@@ -1,0 +1,14 @@
+{
+  "tomato": {
+    "optimal_temp": [20, 30],
+    "rain_warning": "Avoid watering during rainy days.",
+    "heat_tip": "Mulch the soil to retain moisture.",
+    "default_advice": "Use compost and spray neem oil every 10 days."
+  },
+  "paddy": {
+    "optimal_temp": [25, 35],
+    "rain_warning": "Postpone fertilizer during rain.",
+    "heat_tip": "Ensure consistent water level in field.",
+    "default_advice": "Maintain 2-inch water level during early stage."
+  }
+}
