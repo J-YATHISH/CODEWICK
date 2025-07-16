@@ -1,6 +1,6 @@
-# 🌱 CODEWICK: AI-Powered Farming Assistant
+# 🌱 AGRI SAARTI - Revolutionizing Agriculture with AI
 
-**CODEWICK** is an AI-driven agricultural assistant that empowers farmers through image-based crop diagnosis, voice queries, localized weather-aware advice, and multilingual support — all in a single, intuitive platform.
+**AGRI SAARTI** is an AI-driven agricultural assistant that empowers farmers through image-based crop diagnosis, voice queries, localized weather-aware advice, and multilingual support — all in a single, intuitive platform.
 
 ---
 
@@ -45,8 +45,8 @@ Weather API: OpenWeather or similar (customized)
 
 1. Clone the Repo
 
-git clone https://github.com/J-YATHISH/CODEWICK.git
-cd CODEWICK
+git clone https://github.com/J-YATHISH/CODEWICK-AgriSaarthi
+cd CODEWICK-AgriSaarti
 
 2. Set Environment Variables
 
