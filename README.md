@@ -17,20 +17,57 @@
 ## 🏗️ Project Structure
 
 ```bash
-CODEWICK/
-├── README.md                     # Project documentation
-├── nill.txt                      # Placeholder for commits
-├── Streamlit/
-│   └── app.py                    # Streamlit frontend (UI & voice/image upload)
-└── Farmer-Agent-backend/
-    ├── appnew.py                 # Gradio-based AI image advisory
-    ├── test.py                   # Test for HuggingFace image captioning
-    ├── routes/
-    │   ├── advisory.py           # Crop advice route (weather + AI)
-    │   └── weather.py            # Weather route
-    └── utils/
-        ├── audio_utils.py        # Audio transcription via AssemblyAI
-        └── image_utils.py        # Image processing for AI models
+D:\CODEWICK-AgriSaarthi
+│   .gitignore
+│   README.md
+│   styles.css
+│
+├───Farmer-Agent-backend
+│   │   .env
+│   │   app.py
+│   │   requirements.txt
+│   │   test.py
+│   │
+│   ├───routes
+│   │   │   advisory.py
+│   │   │   weather.py
+│   │   │
+│   │   └───_pycache_
+│   │           advisory.cpython-312.pyc
+│   │           weather.cpython-312.pyc
+│   │
+│   ├───static
+│   │       temp_audio.wav
+│   │       temp_image.jpg
+│   │
+│   └───utils
+│       │   ai_handler.py
+│       │   audio_utils.py
+│       │   image_utils.py
+│       │   internet.py
+│       │   prompt_utils.py
+│       │   weather_utils.py
+│       │
+│       └───_pycache_
+│               ai_handler.cpython-312.pyc
+│               audio_utils.cpython-312.pyc
+│               crop_logic.cpython-312.pyc
+│               gpt_engine.cpython-312.pyc
+│               image_utils.cpython-312.pyc
+│               internet.cpython-312.pyc
+│               prompt_utils.cpython-312.pyc
+│               weather_fetcher.cpython-312.pyc
+│               weather_utils.cpython-312.pyc
+│
+├───offline
+│       chatbot1.ipynb
+│       farming_threats.pdf
+│       rag.py
+│
+└───Streamlit
+        app.py
+        requirements.txt
+        tts_23029baa098e48aba1d0db501cd23e9e.mp3
 
 
 🧠 Technologies Used
