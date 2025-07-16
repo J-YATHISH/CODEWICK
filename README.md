@@ -1,6 +1,6 @@
-# 🌱 AGRI SAARTI - Revolutionizing Agriculture with AI
+# 🌱 AGRI SAARTHI - Revolutionizing Agriculture with AI
 
-**AGRI SAARTI** is an AI-driven agricultural assistant that empowers farmers through image-based crop diagnosis, voice queries, localized weather-aware advice, and multilingual support — all in a single, intuitive platform.
+**AGRI SAARTHI** is an AI-driven agricultural assistant that empowers farmers through image-based crop diagnosis, voice queries, localized weather-aware advice, and multilingual support — all in a single, intuitive platform.
 
 ---
 
@@ -46,7 +46,7 @@ Weather API: OpenWeather or similar (customized)
 1. Clone the Repo
 
 git clone https://github.com/J-YATHISH/CODEWICK-AgriSaarthi
-cd CODEWICK-AgriSaarti
+cd CODEWICK-AgriSaarthi
 
 2. Set Environment Variables
 
