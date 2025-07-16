@@ -4,11 +4,18 @@ from dotenv import load_dotenv
 
 # Load API key from .env
 load_dotenv()
-API_KEY = os.getenv("OPENROUTER_API_KEY")
+import os
+print("✅ LOADED KEY:", os.getenv("OPENROUTER_API_KEY"))
 
 def call_openrouter(prompt, lang="ta", model="deepseek/deepseek-chat"):
-    try:
-        # System prompt based on language
+    try:    
+        from dotenv import load_dotenv
+        load_dotenv()
+        API_KEY = os.getenv("OPENROUTER_API_KEY")
+
+        if not API_KEY:
+            return "❌ OpenRouter API key not found. Please check your .env file."
+
         system_prompt = {
             "ta": "நீங்கள் ஒரு விவசாய ஆலோசகர். தமிழில் பதிலளிக்கவும்.",
             "hi": "आप एक कृषि सलाहकार हैं। कृपया हिंदी में उत्तर दें।",
@@ -41,7 +48,6 @@ def call_openrouter(prompt, lang="ta", model="deepseek/deepseek-chat"):
             return f"❌ OpenRouter HTTP error {response.status_code}: {response.text}"
 
         data = response.json()
-
         if "choices" in data and len(data["choices"]) > 0:
             return data["choices"][0]["message"]["content"]
         elif "error" in data:
@@ -51,6 +57,7 @@ def call_openrouter(prompt, lang="ta", model="deepseek/deepseek-chat"):
 
     except Exception as e:
         return f"❌ OpenRouter exception: {str(e)}"
+
 
 def call_ollama(prompt, lang="ta"):
     try:

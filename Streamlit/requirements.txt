@@ -1,0 +1,5 @@
+streamlit==1.26.0
+audio-recorder-streamlit==0.1.4
+gTTS==2.5.1
+deep-translator==1.11.4
+requests==2.31.0

@@ -7,6 +7,8 @@ from utils.image_utils import analyze_image_with_gemini
 from utils.prompt_utils import build_prompt
 from utils.ai_handler import get_ai_response
 from utils.weather_utils import get_weather
+from dotenv import load_dotenv
+load_dotenv() 
 
 app = Flask(__name__)
 CORS(app)  # ✅ Enable CORS for all routes and origins
@@ -25,7 +27,7 @@ def farmer_agent():
         image_desc = analyze_image_with_gemini(image) if image else ""
         weather = get_weather(city or "")
         prompt = build_prompt(text, audio_text, image_desc, weather, lang)
-        response = get_ai_response(prompt, has_internet(), lang)
+        response = get_ai_response(prompt, True , lang)
 
         return jsonify({
             "city": city,
