@@ -16,7 +16,7 @@
 
 ## 🏗️ Project Structure
 
-```bash
+
 CODEWICK/
 ├── README.md                     # Project documentation
 ├── nill.txt                      # Placeholder for commits
